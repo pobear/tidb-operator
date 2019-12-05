@@ -6,10 +6,10 @@ output "monitor_hostname" {
   value = module.tidb-cluster.monitor_hostname
 }
 
-output "tidb_endpoint_dev" {
-  value = module.tidb-cluster-develop.tidb_endpoint
+output "tidb_endpoint" {
+  value = module.tidb-cluster.tidb_endpoint
 }
 
-output "monitor_endpoint_dev" {
-  value = module.tidb-cluster-develop.monitor_endpoint
+output "monitor_endpoint" {
+  value = module.tidb-cluster.monitor_endpoint
 }
