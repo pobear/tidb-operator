@@ -100,15 +100,15 @@ variable "vpc_cidr_newbits" {
 
 variable "k8s_pod_cidr" {
   description = "The kubernetes pod cidr block. It cannot be equals to vpc's or vswitch's and cannot be in them. Cannot change once the cluster created."
-  default     = "172.20.0.0/16"
+  default     = "172.22.0.0/16"
 }
 
 variable "k8s_service_cidr" {
   description = "The kubernetes service cidr block. It cannot be equals to vpc's or vswitch's or pod's and cannot be in them. Cannot change once the cluster created."
-  default     = "172.21.0.0/20"
+  default     = "172.23.0.0/20"
 }
 
 variable "vpc_cidr" {
-  description = "VPC cidr_block, options: [192.168.0.0.0/16, 172.16.0.0/16, 10.0.0.0/8], cannot collidate with kubernetes service cidr and pod cidr. Cannot change once the vpc created."
-  default     = "192.168.0.0/16"
+  description = "VPC cidr_block, options: [192.168.0.0/16, 172.16.0.0/16, 10.0.0.0/8], cannot collidate with kubernetes service cidr and pod cidr. Cannot change once the vpc created."
+  default     = "10.0.0.0/8"
 }

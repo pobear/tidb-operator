@@ -38,9 +38,9 @@ module "tidb-operator" {
   k8s_pod_cidr                  = var.k8s_pod_cidr
   k8s_service_cidr              = var.k8s_service_cidr
   vpc_cidr                      = var.vpc_cidr
-  vpc_id                        = var.vpc_id
+  vpc_id                        = "vpc-2ze6o5gjm6hj9p8r4ji45"
   default_worker_cpu_core_count = var.default_worker_core_count
-  group_id                      = var.group_id
+  group_id                      = "sg-2ze7rjmq1tkuinu89op8"
   key_file                      = local.key_file
   kubeconfig_file               = local.kubeconfig
 }
