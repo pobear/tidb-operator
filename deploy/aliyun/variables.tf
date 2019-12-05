@@ -31,7 +31,7 @@ variable "bastion_ingress_cidr" {
 
 variable "cluster_name" {
   description = "Kubernetes cluster name"
-  default     = "tidb-k8s-cluster"
+  default     = "ali-k8s-tidb"
 }
 
 variable "tidb_version" {
