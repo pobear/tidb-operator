@@ -45,17 +45,6 @@ module "tidb-operator" {
   kubeconfig_file               = local.kubeconfig
 }
 
-module "bastion" {
-  source = "../modules/aliyun/bastion"
-
-  bastion_name             = "${var.cluster_name}-bastion"
-  key_name                 = module.tidb-operator.key_name
-  vpc_id                   = module.tidb-operator.vpc_id
-  vswitch_id               = module.tidb-operator.vswitch_ids[0]
-  enable_ssh_to_worker     = true
-  worker_security_group_id = module.tidb-operator.security_group_id
-}
-
 provider "helm" {
   alias          = "default"
   insecure       = true
@@ -65,23 +54,44 @@ provider "helm" {
   }
 }
 
-module "tidb-cluster" {
+module "tidb-cluster-develop" {
   source = "../modules/aliyun/tidb-cluster"
   providers = {
     helm = helm.default
   }
 
-  cluster_name = "my-cluster"
+  cluster_name = "develop-cluster"
   ack          = module.tidb-operator
 
   tidb_version               = var.tidb_version
   tidb_cluster_chart_version = var.tidb_cluster_chart_version
-  pd_instance_type           = var.pd_instance_type
-  pd_count                   = var.pd_count
-  tikv_instance_type         = var.tikv_instance_type
-  tikv_count                 = var.tikv_count
-  tidb_instance_type         = var.tidb_instance_type
-  tidb_count                 = var.tidb_count
-  monitor_instance_type      = var.monitor_instance_type
-  override_values            = file("my-cluster.yaml")
+  pd_instance_type           = "ecs.c6.xlarge" //4 vCPU + 8 GiB
+  pd_count                   = 1
+  tikv_instance_type         = "ecs.g6.2xlarge" //8 vCPU + 32 GiB
+  tikv_count                 = 3
+  tidb_instance_type         = "ecs.c6.2xlarge"  //8 vCPU + 16 GiB
+  tidb_count                 = 1
+  monitor_instance_type      = "ecs.c5.xlarge" //4 vCPU + 8 GiB
+  override_values            = file("develop-cluster.yaml")
 }
+
+//module "tidb-cluster-product" {
+//  source = "../modules/aliyun/tidb-cluster"
+//  providers = {
+//    helm = helm.default
+//  }
+//
+//  cluster_name = "product-cluster"
+//  ack          = module.tidb-operator
+//
+//  tidb_version               = var.tidb_version
+//  tidb_cluster_chart_version = var.tidb_cluster_chart_version
+//  pd_instance_type           = "ecs.c6.2xlarge" //8 vCPU + 16 GiB
+//  pd_count                   = 3
+//  tikv_instance_type         = "ecs.c6.4xlarge" // 16 vCPU + 32 GiB
+//  tikv_count                 = 3
+//  tidb_instance_type         = "ecs.c6.4xlarge" // 16 vCPU + 32 GiB
+//  tidb_count                 = 2
+//  monitor_instance_type      = "ecs.c6.2xlarge" //8 vCPU + 16 GiB
+//  override_values            = file("product-cluster.yaml")
+//}
